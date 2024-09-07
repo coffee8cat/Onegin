@@ -44,6 +44,7 @@ clean:
 create_obj:
 	$(CC) $(SOURCES) -c -I$(HEADERS_DIR) $(CFLAGS)
 	mv *.o $(OBJ_DIR)
+
 comp_run:
 	make create_obj
 	make linkage
