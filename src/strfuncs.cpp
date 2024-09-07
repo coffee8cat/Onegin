@@ -218,7 +218,7 @@ int my_left_strcmp(const char s1[], const char s2[])
 
     int res = 0;
 
-    while (*s1_pointer != '\0' &&
+    while (*s1_pointer != '\0' && *s2_pointer != 0 &&
           ((res = *s1_pointer - *s2_pointer) == 0 || !isalpha(*s1_pointer) || !isalpha(*s2_pointer)))
     {
         if (isalpha(*s1_pointer) == 0)
@@ -243,6 +243,48 @@ int my_left_strcmp(const char s1[], const char s2[])
         }
         else
             s2_pointer++;
+
+        printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
+               isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
+    }
+
+    return res;
+}
+
+int my_right_strcmp(const char s1[], const char s2[])
+{
+    const char* s1_pointer = s1 + strlen(s1) - 1;
+    const char* s2_pointer = s2 + strlen(s2) - 1;
+
+    int res = 0;
+
+    printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
+            isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
+    while(s1_pointer >= s1 && s2_pointer >= s2 &&
+         ((res = *s1_pointer - *s2_pointer) == 0 || !isalpha(*s1_pointer) || !isalpha(*s2_pointer)))
+    {
+        if (isalpha(*s1_pointer) == 0)
+        {
+            while((isalpha(*s1_pointer) == 0) && s1_pointer >= s1)
+            {
+                printf("%c(%d) ", *s1_pointer, *s1_pointer);
+                s1_pointer--;
+            }
+            s2_pointer++;
+            printf("%c(%d) \n", *s1_pointer, *s1_pointer);
+        }
+        else
+            s1_pointer--;
+
+        if (isalpha(*s2_pointer) == 0)
+        {
+            while((isalpha(*s2_pointer) == 0) && s2_pointer >= s2)
+                s2_pointer--;
+            printf("1");
+            s1_pointer++;
+        }
+        else
+            s2_pointer--;
 
         printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
                isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));

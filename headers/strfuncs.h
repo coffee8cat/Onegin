@@ -27,6 +27,7 @@ FILE* my_getline(FILE *fp, char *s, char delim);
 size_t hash(const char* s, size_t n);
 const char *my_strstr(const char* str, const char* substr);
 
-int my_left_strcmp(const char s1[], const char s2[]);
+int my_left_strcmp  (const char s1[], const char s2[]);
+int my_right_strcmp (const char s1[], const char s2[]);
 
 #endif //_MY_STRING_FUNCTIONS_H__
