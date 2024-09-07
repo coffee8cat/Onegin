@@ -1,5 +1,6 @@
 #include "strfuncs.h"
 #include "file_io.h"
+#include "pointers_array_creation.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
@@ -14,12 +15,7 @@ int main()
     const char *text = readfile(input_file_name);
     printf("%s\n", text);
 
-    const char* s1 = "abcd  ennn";
-    const char* s2 = "  abcde1nn  n";
-    printf("%d\n", my_left_strcmp(s1, s2));
-
-    printf("%d\n", my_right_strcmp(s1, s2));
-    //strings_pointers_array = make_pointers_array(text);
+    const char** strings_pointers_array = make_pointers_array(text);
 
     //write_in_file(left_sort(text),  fp);
     //write_in_file(right_sort(text), fp);
