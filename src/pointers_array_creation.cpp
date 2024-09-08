@@ -22,7 +22,7 @@ const char **make_pointers_array(const char *text)
     {
         ptr_array[counter] = curr + 1;
         counter++;
-        printf("%s\n", ptr_array[counter-1]);
+        //printf("%s\n\n", ptr_array[counter-1]);
     }
     printf("Construction completed\n");
     return ptr_array;

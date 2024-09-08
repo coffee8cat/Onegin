@@ -12,11 +12,11 @@ const char *my_strchr(const char* string, int c);
 
 size_t my_strlen(const char string[]);
 
-char *my_strcpy(char * s1, const char * s2);
-char *my_strncpy(char * s1, const char * s2, size_t n);
+char *my_strcpy  (char * s1, const char * s2);
+char *my_strncpy (char * s1, const char * s2, size_t n);
 
-char *my_strcat(char *s1, const char *s2);
-char *my_strncat(char *s1, const char *s2, size_t n);
+char *my_strcat  (char *s1, const char *s2);
+char *my_strncat (char *s1, const char *s2, size_t n);
 
 char *my_fgets(char *string, size_t STLEN, FILE *fp);
 
@@ -29,5 +29,7 @@ const char *my_strstr(const char* str, const char* substr);
 
 int my_left_strcmp  (const char s1[], const char s2[]);
 int my_right_strcmp (const char s1[], const char s2[]);
+const char* move_pointer_forward_until_alpha (const char* s_pointer);
+const char* move_pointer_back_until_alpha    (const char* s_pointer, const char s[]);
 
 #endif //_MY_STRING_FUNCTIONS_H__
