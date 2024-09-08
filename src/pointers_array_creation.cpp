@@ -55,3 +55,12 @@ const char* create_out_text(const char** array, size_t text_size)
     text[count] = '\0';
     return (const char*)text;
 }
+
+const char** copy_pointers_array(const char** array, size_t size)
+{
+    const char** copied_array = (const char**)calloc(size, sizeof(array[0]));
+    assert(copied_array);
+    memcpy(copied_array, array, size * sizeof(array[0]));
+
+    return copied_array;
+}
