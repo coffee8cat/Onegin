@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include "pointers_array_creation.h"
 
 const char **make_pointers_array(const char *text)
@@ -26,4 +27,30 @@ const char **make_pointers_array(const char *text)
     }
     printf("Construction completed\n");
     return ptr_array;
+}
+
+const char* create_out_text(const char** array, size_t text_size)
+{
+    size_t count = 0;
+    while (array[count] != NULL)
+        count++;
+
+    char* text = (char*)calloc(text_size + 1, sizeof(char));
+    assert(text);
+    size_t n = count;
+    count = 0;
+    for(size_t i = 0; i < n; i++)
+    {
+        const char* curr = array[i];
+        while(*curr != '\n')
+        {
+            text[count] = *curr;
+            curr++;
+            count++;
+        }
+        text[count] = *curr;
+        count++;
+    }
+    text[count] = '\0';
+    return (const char*)text;
 }
