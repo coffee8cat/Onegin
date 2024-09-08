@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "pointers_array_creation.h"
 
-const char **make_pointers_array(const char *text)
+const char** make_pointers_array(const char* text, size_t* array_size)
 {
     const char **ptr_array = (const char **)calloc(strlen(text), sizeof(int));
 
@@ -25,6 +25,7 @@ const char **make_pointers_array(const char *text)
         counter++;
         //printf("%s\n\n", ptr_array[counter-1]);
     }
+    *array_size = counter;
     printf("Construction completed\n");
     return ptr_array;
 }
