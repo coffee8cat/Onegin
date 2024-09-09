@@ -26,24 +26,14 @@ int main()
     array_left_sorted  = left_sort(array_left_sorted);
     array_right_sorted = right_sort(array_right_sorted);
 
-    const char* out_text = create_out_text(array_left_sorted, text_size);
+    const char* out_text = create_out_text(array_left_sorted, array_right_sorted, pointers_array, text_size);
 
     printf("%s\n", out_text);
 
     FILE* fp = fopen(output_file_name, "w");
-    fwrite(out_text, text_size, sizeof(char), fp);
+    printf("%d\n", 2 + text_size * 3);
+    fwrite(out_text, 2 + text_size * 3, sizeof(char), fp);
 
-    out_text = create_out_text(array_right_sorted, text_size);
-    fwrite(out_text, text_size, sizeof(char), fp);
-
-    out_text = create_out_text(pointers_array, text_size);
-    fwrite(out_text, text_size, sizeof(char), fp);
-    //pointers_array = right_sort(pointers_array);
-    //out_text =
     fclose(fp);
-    //printf("%d\n", my_right_strcmp  (pointers_array[0], pointers_array[2]));
-    //printf("%d\n", my_right_strcmp (pointers_array[0], pointers_array[1]));
-    //write_in_file(left_sort(text),  fp);
-    //write_in_file(right_sort(text), fp);
     return EXIT_SUCCESS;
 }

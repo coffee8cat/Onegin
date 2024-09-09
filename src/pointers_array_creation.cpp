@@ -30,19 +30,20 @@ const char** make_pointers_array(const char* text, size_t* array_size)
     return ptr_array;
 }
 
-const char* create_out_text(const char** array, size_t text_size)
+const char* create_out_text(const char** left_sorted,
+                            const char** right_sorted, const char** original, size_t text_size)
 {
-    size_t count = 0;
-    while (array[count] != NULL)
-        count++;
+    size_t left_sorted_size  = pointers_array_size(left_sorted);
+    size_t right_sorted_size = pointers_array_size(right_sorted);
+    size_t original_size     = pointers_array_size(original);
 
-    char* text = (char*)calloc(text_size + 1, sizeof(char));
+    char* text = (char*)calloc(2 + text_size * 3, sizeof(char));
     assert(text);
-    size_t n = count;
-    count = 0;
-    for(size_t i = 0; i < n; i++)
+
+    size_t count = 0;
+    for(size_t i = 0; i < left_sorted_size; i++)
     {
-        const char* curr = array[i];
+        const char* curr = left_sorted[i];
         while(*curr != '\n')
         {
             text[count] = *curr;
@@ -52,8 +53,48 @@ const char* create_out_text(const char** array, size_t text_size)
         text[count] = *curr;
         count++;
     }
-    text[count] = '\0';
+    text[count] = '\n';
+    count++;
+    for(size_t i = 0; i < right_sorted_size; i++)
+    {
+        const char* curr = right_sorted[i];
+        while(*curr != '\n')
+        {
+            text[count] = *curr;
+            curr++;
+            count++;
+        }
+        text[count] = *curr;
+        count++;
+    }
+    text[count] = '\n';
+    count++;
+
+    for(size_t i = 0; i < original_size; i++)
+    {
+        const char* curr = original[i];
+        while(*curr != '\n')
+        {
+            text[count] = *curr;
+            curr++;
+            count++;
+        }
+        text[count] = *curr;
+        count++;
+    }
+    text[count] = '\n';
+    count++;
+
     return (const char*)text;
+}
+
+size_t pointers_array_size(const char** array)
+{
+    size_t count = 0;
+    while (array[count] != NULL)
+        count++;
+
+    return count;
 }
 
 const char** copy_pointers_array(const char** array, size_t size)
