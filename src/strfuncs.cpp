@@ -215,18 +215,19 @@ int my_left_strcmp(const char s1[], const char s2[])
 {
     const char* s1_pointer = s1;
     const char* s2_pointer = s2;
-
+    printf("s1p = %p\n", s1_pointer);
+    printf("s2p = %p\n", s2_pointer);
     int res = 0;
 
     while (*s1_pointer != '\n' && res == 0)
     {
-        //printf("s1\n");
+        printf("s1\n");
         s1_pointer = move_pointer_forward_until_alpha(s1_pointer);
-        //printf("s2\n");
+        printf("s2\n");
         s2_pointer = move_pointer_forward_until_alpha(s2_pointer);
 
-        //printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
-        //       isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
+        printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
+               isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
 
         res = *s1_pointer - *s2_pointer;
     }
@@ -261,13 +262,13 @@ int my_right_strcmp(const char s1[], const char s2[])
 
     while (s1_pointer >= s1 && s2_pointer >= s2 && res == 0)
     {
-        //printf("s1\n");
+        printf("s1\n");
         s1_pointer = move_pointer_back_until_alpha(s1_pointer, s1);
-        //printf("s2\n");
+        printf("s2\n");
         s2_pointer = move_pointer_back_until_alpha(s2_pointer, s2);
 
-        //printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
-        //       isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
+        printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
+               isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
 
         res = *s1_pointer - *s2_pointer;
     }
@@ -283,7 +284,7 @@ const char* move_pointer_back_until_alpha(const char* s_pointer, const char s[])
     while (s_pointer >= s && isalpha(*s_pointer) == 0)
     {
         s_pointer--;
-        //printf("*s = %c(%d)\n", *s_pointer, *s_pointer);
+        printf("*s = %c(%d)\n", *s_pointer, *s_pointer);
     }
     return s_pointer;
 }

@@ -9,7 +9,7 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
+    //setlocale(LC_ALL, "Russian");
     const char input_file_name[]  = "data\\onegin_eng.txt";
     const char output_file_name[] = "data\\my_onegin.txt";
 
@@ -17,8 +17,19 @@ int main()
     const char *text = readfile(input_file_name, &text_size);
     printf("%s\n", text);
 
+
     size_t array_size = 0;
     const char** pointers_array = make_pointers_array(text, &array_size);
+    /*for(int i = 0; i < 17; i++)
+        printf("a[%d] = %p\n", i, pointers_array[i]);*/
+
+
+    my_left_strcmp(pointers_array[0], pointers_array[0]);
+
+    quicksort(pointers_array, 0, array_size - 2);
+    printf("%s\n", pointers_array[array_size-1]);
+    for(int i = 0; i < 17; i++)
+        printf("a[%d] = %d\n", i, pointers_array[i][5]);
 
     const char** array_left_sorted  = copy_pointers_array(pointers_array, array_size);
     const char** array_right_sorted = copy_pointers_array(pointers_array, array_size);
@@ -31,8 +42,8 @@ int main()
     printf("%s\n", out_text);
 
     FILE* fp = fopen(output_file_name, "w");
-    printf("%d\n", 2 + text_size * 3);
-    fwrite(out_text, 2 + text_size * 3, sizeof(char), fp);
+
+    fwrite(out_text, 3 + text_size * 3, sizeof(char), fp);
 
     fclose(fp);
     return EXIT_SUCCESS;

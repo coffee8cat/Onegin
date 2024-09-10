@@ -37,7 +37,7 @@ const char* create_out_text(const char** left_sorted,
     size_t right_sorted_size = pointers_array_size(right_sorted);
     size_t original_size     = pointers_array_size(original);
 
-    char* text = (char*)calloc(2 + text_size * 3, sizeof(char));
+    char* text = (char*)calloc(2 + 1 + text_size * 3, sizeof(char));
     assert(text);
 
     size_t count = 0;
@@ -82,7 +82,7 @@ const char* create_out_text(const char** left_sorted,
         text[count] = *curr;
         count++;
     }
-    text[count] = '\n';
+    text[count] = '\0';
     count++;
 
     return (const char*)text;
