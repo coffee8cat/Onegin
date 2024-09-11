@@ -1,6 +1,7 @@
 #include "strfuncs.h"
 #include "sorting.h"
 #include <stdio.h>
+#include <assert.h>
 
 const char** left_sort(const char** array)
 {
@@ -70,31 +71,33 @@ void quicksort(const char** array, size_t l, size_t r)
 
 size_t partition(const char** array, size_t l, size_t r)
 {
-    size_t v = (r + l) / 2;
+    printf("----------------------\nl = %d r = %d v = %d\n", l, r, (l + r) / 2);
+    const char* v = array[(r + l) / 2];
     size_t i = l;
     size_t j = r;
 
     while (i < j)
     {
-        printf("i = %d\n", i);
-        while (my_left_strcmp(array[i], array[v]) < 0 && i < r)
+        //printf("i = %d\n", i);
+        while (my_left_strcmp(array[i], v) < 0 && i < r)
             i++;
-        printf("j = %d v = %d\n", j, v);
-        printf("%s\n", array[j]);
-        printf("%s\n", array[v]);
-        while (my_left_strcmp(array[j], array[v]) >= 0 && j > l)
+        printf("i = %d ", i);
+        while (my_left_strcmp(array[j], v) > 0 && j > l)
         {
             j--;
-            printf("------------ j = %d\n", j);
         }
+        printf("j = %d\n", j);
         if (i >= j)
             break;
-        printf("i = %d j = %d\n", i, j);
-        swap(&array[i++], &array[j--]);
+        printf("swap i = %d j = %d\n", i, j);
+
+        swap(&array[i], &array[j]);
+
+
+        for(int i = 0; i < 17; i++)
+            printf("a[%d] = %d\n", i, array[i][5]);
     }
-    printf("%s\n", array[0]);
-    for(int i = 0; i < 17; i++)
-        printf("a[%d] = %d\n", i, array[i][5]);
+    printf("end: i = %d, j = %d\n", i, j);
     return j;
 }
 

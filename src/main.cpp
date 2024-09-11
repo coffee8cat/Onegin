@@ -17,34 +17,27 @@ int main()
     const char *text = readfile(input_file_name, &text_size);
     printf("%s\n", text);
 
-
     size_t array_size = 0;
     const char** pointers_array = make_pointers_array(text, &array_size);
-    /*for(int i = 0; i < 17; i++)
-        printf("a[%d] = %p\n", i, pointers_array[i]);*/
 
-
-    my_left_strcmp(pointers_array[0], pointers_array[0]);
-
-    quicksort(pointers_array, 0, array_size - 2);
-    printf("%s\n", pointers_array[array_size-1]);
-    for(int i = 0; i < 17; i++)
-        printf("a[%d] = %d\n", i, pointers_array[i][5]);
+    printf("quicksort start\n");
+    quicksort(pointers_array, 0, array_size - 1);
+    /*printf("quicksort start\n");
+    quicksort(pointers_array, 0, array_size - 1);
+    printf("quicksort start\n");
+    quicksort(pointers_array, 0, array_size - 1);*/
 
     const char** array_left_sorted  = copy_pointers_array(pointers_array, array_size);
     const char** array_right_sorted = copy_pointers_array(pointers_array, array_size);
 
     array_left_sorted  = left_sort(array_left_sorted);
     array_right_sorted = right_sort(array_right_sorted);
-
     const char* out_text = create_out_text(array_left_sorted, array_right_sorted, pointers_array, text_size);
 
     printf("%s\n", out_text);
 
     FILE* fp = fopen(output_file_name, "w");
-
     fwrite(out_text, 3 + text_size * 3, sizeof(char), fp);
-
     fclose(fp);
     return EXIT_SUCCESS;
 }

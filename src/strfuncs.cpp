@@ -47,7 +47,8 @@ size_t my_strlen(const char string[])
 
 char *my_strcpy(char * s1, const char * s2)
 {
-    assert(s1 && s2);
+    assert(s1);
+    assert(s2);
 
     size_t i = 0;
     size_t s1_len = strlen(s1);
@@ -63,7 +64,8 @@ char *my_strcpy(char * s1, const char * s2)
 
 char *my_strncpy(char * s1, const char * s2, const size_t n)
 {
-    assert(s1 && s2);
+    assert(s1);
+    assert(s2);
 
     size_t i = 0;
     size_t s1_len = strlen(s1);
@@ -79,7 +81,8 @@ char *my_strncpy(char * s1, const char * s2, const size_t n)
 
 char *my_strcat(char *s1, const char *s2)
 {
-    assert(s1 && s2);
+    assert(s1);
+    assert(s2);
 
     char * ptc = s1;
     size_t i = 0;
@@ -119,7 +122,8 @@ char *my_strncat(char *s1, const char *s2, size_t n)
 
 char *my_fgets(char *string, size_t STLEN, FILE *fp)
 {
-    assert(string && fp);
+    assert(string);
+    assert(fp);
 
     char ch = ' ';
     size_t i = 0;
@@ -213,22 +217,17 @@ const char *my_strstr(const char* str, const char* substr)
 
 int my_left_strcmp(const char s1[], const char s2[])
 {
+    assert(s1);
+    assert(s2);
+
     const char* s1_pointer = s1;
     const char* s2_pointer = s2;
-    printf("s1p = %p\n", s1_pointer);
-    printf("s2p = %p\n", s2_pointer);
     int res = 0;
 
     while (*s1_pointer != '\n' && res == 0)
     {
-        printf("s1\n");
         s1_pointer = move_pointer_forward_until_alpha(s1_pointer);
-        printf("s2\n");
         s2_pointer = move_pointer_forward_until_alpha(s2_pointer);
-
-        printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
-               isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
-
         res = *s1_pointer - *s2_pointer;
     }
 
@@ -237,54 +236,44 @@ int my_left_strcmp(const char s1[], const char s2[])
 
 const char* move_pointer_forward_until_alpha(const char* s_pointer)
 {
+    assert(s_pointer);
     s_pointer++;
-    //printf("*s = %c(%d)\n", *s_pointer, *s_pointer);
     while(*s_pointer != '\n' && isalpha(*s_pointer) == 0)
     {
         s_pointer++;
-        //printf("*s = %c(%d)\n", *s_pointer, *s_pointer);
     }
     return s_pointer;
 }
 
 int my_right_strcmp(const char s1[], const char s2[])
 {
-    //printf("-----------\n------------------\n------------------\n");
+    assert(s1);
+    assert(s2);
+
     const char* s1_pointer = strchr(s1, '\n');
     const char* s2_pointer = strchr(s2, '\n');
 
     int res = 0;
 
-    /*printf("s1 = %p\n", s1);
-    printf("s2 = %p\n", s2);
-    printf("pointer1 = %p\n", s1_pointer);
-    printf("pointer2 = %p\n", s2_pointer);*/
-
     while (s1_pointer >= s1 && s2_pointer >= s2 && res == 0)
     {
-        printf("s1\n");
         s1_pointer = move_pointer_back_until_alpha(s1_pointer, s1);
-        printf("s2\n");
         s2_pointer = move_pointer_back_until_alpha(s2_pointer, s2);
-
-        printf("ch1 = %c(%d, isalpha=%d) ch2 = %c(%d, isalpha=%d)\n", *s1_pointer, *s1_pointer,
-               isalpha(*s1_pointer), *s2_pointer, *s2_pointer, isalpha(*s2_pointer));
 
         res = *s1_pointer - *s2_pointer;
     }
-
     return res;
 }
 
 const char* move_pointer_back_until_alpha(const char* s_pointer, const char s[])
 {
-    s_pointer--;
-    //printf("*s = %c(%d)\n", *s_pointer, *s_pointer);
+    assert(s_pointer);
+    assert(s);
 
+    s_pointer--;
     while (s_pointer >= s && isalpha(*s_pointer) == 0)
     {
         s_pointer--;
-        printf("*s = %c(%d)\n", *s_pointer, *s_pointer);
     }
     return s_pointer;
 }
