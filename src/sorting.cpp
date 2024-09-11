@@ -1,18 +1,13 @@
 #include "strfuncs.h"
 #include "sorting.h"
+#include "pointers_array_creation.h"
 #include <stdio.h>
 #include <assert.h>
 
-const char** sort_lines  (const char** array, int (*sort_func)(const char*, const char*))
+const char** sort_lines(const char** array, int (*sort_func)(const char*, const char*))
 {
-    size_t curr = 0;
-    while (array[curr] != NULL)
-    {
-        curr++;
-    }
-    size_t n = curr;
-    curr = 0;
     const char* interim = NULL;
+    size_t n = pointers_array_size(array);
 
     while (n > 1)
     {

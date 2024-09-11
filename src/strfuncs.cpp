@@ -5,12 +5,12 @@
 #include <assert.h>
 #include <ctype.h>
 
-int my_puts(const char input_line[])
+int my_puts (const char* input_line)
 {
     assert(input_line);
 
     size_t i = 0;
-    while(i < strlen(input_line) - 1)
+    while (i < strlen(input_line) - 1)
     {
         putc(input_line[i], stdout);
         i++;
@@ -19,21 +19,32 @@ int my_puts(const char input_line[])
     return i;
 }
 
-const char * my_strchr(const char* string, int c)
+const char* my_strchr (const char* string, int c)
 {
     assert(string);
 
     const char *cur = string;
-    while ( *cur != '\0' )
+    while (*cur != '\0')
     {
-        if ( *cur == c )
+        if (*cur == c)
             return cur;
     }
-
     return NULL;
 }
 
-size_t my_strlen(const char string[])
+size_t count_chr(const char* string, char ch)
+{
+    size_t count = 0;
+    while(*string != '\0')
+    {
+        if (*string == ch)
+            count++;
+        string++;
+    }
+    return count;
+}
+
+size_t my_strlen(const char* string)
 {
     assert(string);
 
@@ -45,7 +56,7 @@ size_t my_strlen(const char string[])
     return i;
 }
 
-char *my_strcpy(char * s1, const char * s2)
+char* my_strcpy(char* s1, const char* s2)
 {
     assert(s1);
     assert(s2);
@@ -62,7 +73,7 @@ char *my_strcpy(char * s1, const char * s2)
     return s1;
 }
 
-char *my_strncpy(char * s1, const char * s2, const size_t n)
+char* my_strncpy(char* s1, const char* s2, const size_t n)
 {
     assert(s1);
     assert(s2);
@@ -79,7 +90,7 @@ char *my_strncpy(char * s1, const char * s2, const size_t n)
     return s1;
 }
 
-char *my_strcat(char *s1, const char *s2)
+char* my_strcat(char* s1, const char* s2)
 {
     assert(s1);
     assert(s2);
@@ -87,12 +98,10 @@ char *my_strcat(char *s1, const char *s2)
     char * ptc = s1;
     size_t i = 0;
 
-    while(*ptc != '\0')
-    {
+    while (*ptc != '\0')
         ptc++;
-    }
 
-    while(s2[i] != '\0')
+    while (s2[i] != '\0')
     {
         ptc[i] = s2[i];
         i++;
@@ -100,19 +109,16 @@ char *my_strcat(char *s1, const char *s2)
     return s1;
 }
 
-char *my_strncat(char *s1, const char *s2, size_t n)
+char* my_strncat(char* s1, const char* s2, size_t n)
 {
     assert(s1 && s2);
 
-    char * ptc = &s1[0];
+    char* ptc = &s1[0];
     size_t i = 0;
 
-    while(*ptc != '\0')
-    {
+    while (*ptc != '\0')
         ptc++;
-    }
-
-    while(s2[i] != '\0' && i < n)
+    while (s2[i] != '\0' && i < n)
     {
         *(ptc + i) = s2[i];
         i++;
@@ -120,35 +126,32 @@ char *my_strncat(char *s1, const char *s2, size_t n)
     return s1;
 }
 
-char *my_fgets(char *string, size_t STLEN, FILE *fp)
+char* my_fgets(char* string, size_t STLEN, FILE* fp)
 {
     assert(string);
     assert(fp);
 
     char ch = ' ';
     size_t i = 0;
-    while((ch = getc(fp)) != '\n' && i < STLEN)
+    while ((ch = getc(fp)) != '\n' && i < STLEN)
     {
         *(string + i) = ch;
         i++;
     }
-    if(ch == '\n')
-    {
+    if (ch == '\n')
         *(string + i) = ch;
-    }
-
     return string;
 }
 
-char *my_strdup(const char string[])
+char* my_strdup(const char* string)
 {
     assert(string);
 
-    char *ptc = NULL;
-    ptc = (char *) calloc(BUFSIZ, sizeof(char));
+    char* ptc = NULL;
+    ptc = (char*)calloc(BUFSIZ, sizeof(char));
 
     size_t i = 0;
-    while(string[i] != '\0')
+    while (string[i] != '\0')
     {
         ptc[i] = string[i];
         i++;
@@ -156,7 +159,7 @@ char *my_strdup(const char string[])
     return ptc;
 }
 
-FILE* my_getline(FILE *fp, char *s, char delim)
+FILE* my_getline(FILE* fp, char* s, char delim)
 {
     assert(s);
     assert(fp);
@@ -170,7 +173,6 @@ FILE* my_getline(FILE *fp, char *s, char delim)
         s[i] = ch;
         i++;
     }
-
     return fp;
 }
 
@@ -190,7 +192,7 @@ size_t hash(const char* s, size_t n)
     return h;
 }
 
-const char *my_strstr(const char* str, const char* substr)
+const char* my_strstr(const char* str, const char* substr)
 {
     assert(str);
     assert(substr);
@@ -203,19 +205,19 @@ const char *my_strstr(const char* str, const char* substr)
     while (*curr != '\0')
     {
         if (hash(curr, substr_len) == substr_hash)
-        printf("hash concurrence occcured; current pointer = %p\n", curr);
-            if(strncmp(curr, substr, substr_len) == 0)
+        {
+            printf("hash concurrence occcured; current pointer = %p\n", curr);
+            if (strncmp(curr, substr, substr_len) == 0)
                 return curr;
-
+        }
         printf("curr_h = %d, substr_h = %d\n", hash(curr, substr_len), substr_hash);
         curr++;
     }
-
     printf("Something gone wrong in my_strstr\n");
     return curr;
 }
 
-int my_left_strcmp(const char s1[], const char s2[])
+int my_left_strcmp(const char* s1, const char* s2)
 {
     assert(s1);
     assert(s2);
@@ -230,7 +232,6 @@ int my_left_strcmp(const char s1[], const char s2[])
         s2_pointer = move_pointer_forward_until_alpha(s2_pointer);
         res = *s1_pointer - *s2_pointer;
     }
-
     return res;
 }
 
@@ -238,14 +239,14 @@ const char* move_pointer_forward_until_alpha(const char* s_pointer)
 {
     assert(s_pointer);
     s_pointer++;
-    while(*s_pointer != '\n' && isalpha(*s_pointer) == 0)
+    while (*s_pointer != '\n' && isalpha(*s_pointer) == 0)
     {
         s_pointer++;
     }
     return s_pointer;
 }
 
-int my_right_strcmp(const char s1[], const char s2[])
+int my_right_strcmp(const char* s1, const char* s2)
 {
     assert(s1);
     assert(s2);
@@ -254,26 +255,22 @@ int my_right_strcmp(const char s1[], const char s2[])
     const char* s2_pointer = strchr(s2, '\n');
 
     int res = 0;
-
     while (s1_pointer >= s1 && s2_pointer >= s2 && res == 0)
     {
         s1_pointer = move_pointer_back_until_alpha(s1_pointer, s1);
         s2_pointer = move_pointer_back_until_alpha(s2_pointer, s2);
-
         res = *s1_pointer - *s2_pointer;
     }
     return res;
 }
 
-const char* move_pointer_back_until_alpha(const char* s_pointer, const char s[])
+const char* move_pointer_back_until_alpha(const char* s_pointer, const char* s)
 {
     assert(s_pointer);
     assert(s);
 
     s_pointer--;
     while (s_pointer >= s && isalpha(*s_pointer) == 0)
-    {
         s_pointer--;
-    }
     return s_pointer;
 }

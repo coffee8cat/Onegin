@@ -4,12 +4,11 @@
 #include <assert.h>
 #include "pointers_array_creation.h"
 
-const char** make_pointers_array(const char* text, size_t* array_size)
+const char** make_pointers_array(const char* text, size_t array_size)
 {
     assert(text);
-    assert(array_size);
 
-    const char **ptr_array = (const char **)calloc(strlen(text), sizeof(int));
+    const char** ptr_array = (const char**)calloc(array_size + 1, sizeof(int));
     assert(ptr_array);
 
     ptr_array[0] = text;
@@ -21,7 +20,6 @@ const char** make_pointers_array(const char* text, size_t* array_size)
         ptr_array[counter] = curr + 1;
         counter++;
     }
-    *array_size = counter;
     printf("Construction completed\n");
 
     return ptr_array;
@@ -58,17 +56,17 @@ void add_fragment(char* text, size_t* count, size_t array_size, const char** arr
     assert(array);
 
     for(size_t i = 0; i < array_size; i++)
+    {
+        const char* curr = array[i];
+        while(*curr != '\n')
         {
-            const char* curr = array[i];
-            while(*curr != '\n')
-            {
-                text[*count] = *curr;
-                curr++;
-                (*count)++;
-            }
             text[*count] = *curr;
+            curr++;
             (*count)++;
         }
+        text[*count] = *curr;
+        (*count)++;
+    }
     text[*count] = '\n';
     (*count)++;
 }
