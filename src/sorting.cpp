@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-const char** left_sort(const char** array)
+const char** sort_lines  (const char** array, int (*sort_func)(const char*, const char*))
 {
     size_t curr = 0;
     while (array[curr] != NULL)
@@ -18,35 +18,7 @@ const char** left_sort(const char** array)
     {
         for(size_t i = 0; i < n - 1; i++)
         {
-            if(my_left_strcmp(array[i], array[i+1]) >= 0)
-            {
-                interim    = array[i];
-                array[i]   = array[i+1];
-                array[i+1] = interim;
-            }
-        }
-        n--;
-    }
-
-    return array;
-}
-
-const char** right_sort(const char** array)
-{
-    size_t curr = 0;
-    while (array[curr] != NULL)
-    {
-        curr++;
-    }
-    size_t n = curr;
-    curr = 0;
-    const char* interim = NULL;
-
-    while (n > 1)
-    {
-        for(size_t i = 0; i < n - 1; i++)
-        {
-            if(my_right_strcmp(array[i], array[i+1]) >= 0)
+            if(sort_func(array[i], array[i+1]) >= 0)
             {
                 interim    = array[i];
                 array[i]   = array[i+1];
@@ -78,14 +50,11 @@ size_t partition(const char** array, size_t l, size_t r)
 
     while (i < j)
     {
-        //printf("i = %d\n", i);
         while (my_left_strcmp(array[i], v) < 0 && i < r)
             i++;
         printf("i = %d ", i);
         while (my_left_strcmp(array[j], v) > 0 && j > l)
-        {
             j--;
-        }
         printf("j = %d\n", j);
         if (i >= j)
             break;

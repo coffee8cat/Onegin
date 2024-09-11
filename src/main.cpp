@@ -22,16 +22,12 @@ int main()
 
     printf("quicksort start\n");
     quicksort(pointers_array, 0, array_size - 1);
-    /*printf("quicksort start\n");
-    quicksort(pointers_array, 0, array_size - 1);
-    printf("quicksort start\n");
-    quicksort(pointers_array, 0, array_size - 1);*/
 
     const char** array_left_sorted  = copy_pointers_array(pointers_array, array_size);
     const char** array_right_sorted = copy_pointers_array(pointers_array, array_size);
 
-    array_left_sorted  = left_sort(array_left_sorted);
-    array_right_sorted = right_sort(array_right_sorted);
+    array_left_sorted  = sort_lines(array_left_sorted,  my_left_strcmp);
+    array_right_sorted = sort_lines(array_right_sorted, my_right_strcmp);
     const char* out_text = create_out_text(array_left_sorted, array_right_sorted, pointers_array, text_size);
 
     printf("%s\n", out_text);
