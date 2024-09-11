@@ -20,14 +20,11 @@ int main()
     size_t array_size = 0;
     const char** pointers_array = make_pointers_array(text, &array_size);
 
-    printf("quicksort start\n");
-    quicksort(pointers_array, 0, array_size - 1);
-
     const char** array_left_sorted  = copy_pointers_array(pointers_array, array_size);
     const char** array_right_sorted = copy_pointers_array(pointers_array, array_size);
 
-    array_left_sorted  = sort_lines(array_left_sorted,  my_left_strcmp);
-    array_right_sorted = sort_lines(array_right_sorted, my_right_strcmp);
+    quicksort(array_left_sorted,  0, array_size - 1, my_left_strcmp);
+    quicksort(array_right_sorted, 0, array_size - 1, my_right_strcmp);
     const char* out_text = create_out_text(array_left_sorted, array_right_sorted, pointers_array, text_size);
 
     printf("%s\n", out_text);

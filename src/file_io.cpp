@@ -17,8 +17,8 @@ const char *readfile(const char file_name[], size_t* file_size)
     *file_size = (size_t)st.st_size;
     printf("%d\n", *file_size);
 
-    const char *text = (const char*)calloc(*file_size, sizeof(char));
-    fread((void*)text, sizeof(char), (size_t)st.st_size ,fp);
+    char* text = (char*)calloc(*file_size, sizeof(char));
+    fread(text, sizeof(char), (size_t)st.st_size ,fp);
     fclose(fp);
-    return text;
+    return (const char*)text;
 }

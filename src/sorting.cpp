@@ -31,42 +31,38 @@ const char** sort_lines  (const char** array, int (*sort_func)(const char*, cons
     return array;
 }
 
-void quicksort(const char** array, size_t l, size_t r)
+void quicksort(const char** array, size_t l, size_t r, int (*sort_func)(const char*, const char*))
 {
+    assert(array);
+    assert(sort_func);
+
     if (l < r)
     {
-        int q = partition(array, l, r);
-        quicksort(array, l, q);
-        quicksort(array, q+1, r);
+        int q = partition(array, l, r, sort_func);
+        quicksort(array, l,   q, sort_func);
+        quicksort(array, q+1, r, sort_func);
     }
 }
 
-size_t partition(const char** array, size_t l, size_t r)
+size_t partition(const char** array, size_t l, size_t r, int (*sort_func)(const char*, const char*))
 {
-    printf("----------------------\nl = %d r = %d v = %d\n", l, r, (l + r) / 2);
+    assert(array);
+    assert(sort_func);
+
     const char* v = array[(r + l) / 2];
     size_t i = l;
     size_t j = r;
 
     while (i < j)
     {
-        while (my_left_strcmp(array[i], v) < 0 && i < r)
+        while (sort_func(array[i], v) < 0 && i < r)
             i++;
-        printf("i = %d ", i);
-        while (my_left_strcmp(array[j], v) > 0 && j > l)
+        while (sort_func(array[j], v) > 0 && j > l)
             j--;
-        printf("j = %d\n", j);
         if (i >= j)
             break;
-        printf("swap i = %d j = %d\n", i, j);
-
         swap(&array[i], &array[j]);
-
-
-        for(int i = 0; i < 17; i++)
-            printf("a[%d] = %d\n", i, array[i][5]);
     }
-    printf("end: i = %d, j = %d\n", i, j);
     return j;
 }
 
