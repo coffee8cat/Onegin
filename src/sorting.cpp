@@ -4,10 +4,9 @@
 #include <stdio.h>
 #include <assert.h>
 
-const char** sort_lines(const char** array, int (*sort_func)(const char*, const char*))
+const char** sort_lines(const char** array, size_t n, int (*sort_func)(const char*, const char*))
 {
     const char* interim = NULL;
-    size_t n = pointers_array_size(array);
 
     while (n > 1)
     {
@@ -15,14 +14,13 @@ const char** sort_lines(const char** array, int (*sort_func)(const char*, const 
         {
             if(sort_func(array[i], array[i+1]) >= 0)
             {
-                interim    = array[i];
-                array[i]   = array[i+1];
-                array[i+1] = interim;
+                interim = array[i];
+                          array[i] = array[i+1];
+                                     array[i+1] = interim;
             }
         }
         n--;
     }
-
     return array;
 }
 
@@ -44,7 +42,7 @@ size_t partition(const char** array, size_t l, size_t r, int (*sort_func)(const 
     assert(array);
     assert(sort_func);
 
-    const char* v = array[(r + l) / 2];
+    const char* v = array[(r + l) / 2]; //возможен выход за пределы массива
     size_t i = l;
     size_t j = r;
 
