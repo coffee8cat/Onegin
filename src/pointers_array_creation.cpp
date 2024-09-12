@@ -4,46 +4,38 @@
 #include <assert.h>
 #include "pointers_array_creation.h"
 
-const char** make_pointers_array(const char* text, size_t text_size, size_t array_size)
+void make_pointers_array(onegin_data* onegin)
 {
-    assert(text);
-    const char** ptr_array = (const char**)calloc(array_size + 1, sizeof(int));
-    assert(ptr_array);
+    assert(onegin);
+    onegin -> original = (const char**)calloc(onegin -> n_lines + 1, sizeof(int));
+    assert(onegin -> original);
 
-    ptr_array[0] = text;
+    (onegin -> original)[0] = onegin -> text;
     size_t line_counter = 1;
     //printf("text in %p\n", text);
     //printf("%p\n", text + text_size - 1);
-    for (const char* curr = text; curr < text + text_size - 1; curr++)
+    for (const char* curr = onegin -> text; curr < onegin -> text + onegin -> text_size - 1; curr++)
     {
         if(*curr == '\n')
         {
-            ptr_array[line_counter++] = curr + 1;
+            (onegin -> original)[line_counter++] = curr + 1;
             //printf("line %3d pointer %p\n", line_counter - 1, curr);
         }
     }
     printf("Construction completed\n");
-    return ptr_array;
 }
 
-const char* create_out_text(const char** left_sorted,
-                            const char** right_sorted,
-                            const char** original,
-                            size_t text_size, size_t array_size)
+void create_out_text(onegin_data* onegin)
 {
-    assert(left_sorted);
-    assert(right_sorted);
-    assert(original);
+    assert(onegin);
 
-    char* text = (char*)calloc(3 + text_size * 3, sizeof(char));
-    assert(text);
+    onegin -> out_text = (char*)calloc(3 + onegin -> text_size * 3, sizeof(char));
+    assert(onegin -> out_text);
 
     size_t count = 0;
-    add_fragment(text, &count, array_size, left_sorted);
-    add_fragment(text, &count, array_size, right_sorted);
-    add_fragment(text, &count, array_size, original);
-
-    return (const char*)text;
+    add_fragment(onegin -> out_text, &count, onegin -> n_lines, onegin -> left_sorted);
+    add_fragment(onegin -> out_text, &count, onegin -> n_lines, onegin -> right_sorted);
+    add_fragment(onegin -> out_text, &count, onegin -> n_lines, onegin -> original);
 }
 
 void add_fragment(char* text, size_t* count, size_t array_size, const char** array)

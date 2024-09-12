@@ -18,7 +18,7 @@ int readfile(onegin_data* onegin)
         onegin -> text_size = (size_t)st.st_size;
         printf("%d\n", onegin -> text_size);
 
-        onegin -> text = (char*)calloc(onegin -> text_size + 1, sizeof(char)); // check
+        onegin -> text = (char*)calloc(onegin -> text_size + 1, sizeof(char));
         if (onegin -> text != NULL)
         {
             fread(onegin -> text, sizeof(char), onegin -> text_size , fp);
