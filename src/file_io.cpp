@@ -1,4 +1,5 @@
 #include "file_io.h"
+#include "data.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -6,25 +7,25 @@
 #include <unistd.h>
 #include <assert.h>
 
-const char *readfile(const char* file_name, size_t* file_size)
+int readfile(onegin_data* onegin)
 {
-    FILE *fp = fopen(file_name, "rb");
+    FILE *fp = fopen(onegin->input_file_name, "rb");
     assert(fp);
     if (fp != NULL)
     {
         struct stat st = {};
         fstat(fileno(fp), &st);
-        *file_size = (size_t)st.st_size;
-        printf("%d\n", *file_size);
+        onegin -> text_size = (size_t)st.st_size;
+        printf("%d\n", onegin -> text_size);
 
-        char* text = (char*)calloc(*file_size + 1, sizeof(char)); // check
-        if (text != NULL)
+        onegin -> text = (char*)calloc(onegin -> text_size + 1, sizeof(char)); // check
+        if (onegin -> text != NULL)
         {
-            *file_size = fread(text, sizeof(char), (size_t)st.st_size ,fp);
+            fread(onegin -> text, sizeof(char), onegin -> text_size , fp);
             fclose(fp);
-            text[*file_size] = '\n';
+            (onegin -> text)[onegin -> text_size] = '\n';
 
-            return (const char*)text;
+            return 1;
         }
         else
         {
@@ -32,6 +33,7 @@ const char *readfile(const char* file_name, size_t* file_size)
         }
     }
     else
-        fprintf(stderr, "ERROR: Cannot open file %s\n", file_name);
-    return NULL;
+        fprintf(stderr, "ERROR: Cannot open file %s\n", onegin -> input_file_name);
+
+    return EXIT_FAILURE;
 }

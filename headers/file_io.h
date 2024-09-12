@@ -2,7 +2,8 @@
 #define _FILE_INPUT_OUTPUT_H__
 
 #include <stdio.h>
+#include "data.h"
 
-const char* readfile (const char* file_name, size_t* file_size);
+int readfile (onegin_data* onegin);
 
 #endif //_FILE_INPUT_OUTPUT_H__
