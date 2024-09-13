@@ -24,39 +24,55 @@ const char** sort_lines(const char** array, size_t n, int (*sort_func)(const cha
     return array;
 }
 
-void quicksort(const char** array, size_t l, size_t r, int (*sort_func)(const char*, const char*))
+void quicksort(const char** array, size_t length, size_t width, int (*sort_func)(const char*, const char*))
 {
     assert(array);
     assert(sort_func);
 
-    if (l < r)
+    if (length > 1)
     {
-        int q = partition(array, l, r, sort_func);
-        quicksort(array, l,   q, sort_func);
-        quicksort(array, q+1, r, sort_func);
+        int q = partition(array, length, width, sort_func);
+        //printf("array = %14p length = %d\narray + q = %10p q = %d\n", array, length, array + q, q);
+        quicksort(array,     q,     width, sort_func);
+        quicksort(array + q, length - q, width, sort_func);
     }
 }
 
-size_t partition(const char** array, size_t l, size_t r, int (*sort_func)(const char*, const char*))
+size_t partition(const char** array, size_t length, size_t width, int (*sort_func)(const char*, const char*))
 {
     assert(array);
     assert(sort_func);
 
-    const char* v = array[(r + l) / 2]; //возможен выход за пределы массива
-    size_t i = l;
-    size_t j = r;
+    const char*  v = *(array + length / 2); //возможен выход за пределы массива
+    const char** i = array;
+    const char** j = array + length - 1;
 
+    /*printf("i[%d] = %c(%d) j[%d] = %c(%d) v[%d] = %c(%d)\n",
+           int(i - array), *(*i + 5), *(*i + 5),
+           int(j - array), *(*j + 5), *(*j + 5),
+           int(v - array), *(*v + 5), *(*v + 5));
+    */
     while (i < j)
     {
-        while (sort_func(array[i], v) < 0 && i < r)
-            i++;
-        while (sort_func(array[j], v) > 0 && j > l)
-            j--;
+        while (sort_func(*i, v) < 0 && i < array + length - 1)
+            i = i + 1;
+        while (sort_func(*j, v) > 0 && j > array)
+        {
+            //printf("compare for j = %d: %d\n", int(j - array), sort_func(*j, *v));
+            j = j - 1;
+        }
         if (i >= j)
             break;
-        swap(&array[i], &array[j]);
+        /*printf("swap i[%d] = %c(%d), j[%d] = %c(%d)\n",
+               int(i - array), *(*i + 5), *(*i + 5), int(j - array), *(*j + 5), *(*j + 5));
+               */
+
+        swap(i, j);
     }
-    return j;
+    for (size_t a = 0; a < length; a++)
+            printf("a[%d] = %c(%d)\n", a, *(*(array + a) + 5), *(*(array + a) + 5));
+
+    return size_t(j - array);
 }
 
 void swap(const char** x1, const char** x2)

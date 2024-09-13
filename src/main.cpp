@@ -3,6 +3,7 @@
 #include "pointers_array_creation.h"
 #include "sorting.h"
 #include "data.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <locale.h>
@@ -16,8 +17,6 @@ int main()
         "data\\onegin_eng.txt",
         "data\\my_onegin.txt"
     };
-    const char input_file_name[]  = "data\\onegin_eng.txt";
-    const char output_file_name[] = "data\\my_onegin.txt";
 
     readfile(&onegin);
 
@@ -30,9 +29,14 @@ int main()
     onegin.right_sorted = copy_pointers_array(onegin.original, onegin.n_lines);
     printf("Copying completed\n");
 
-    onegin.n_lines--;
-    quicksort(onegin.left_sorted,  0, onegin.n_lines - 1, my_left_strcmp);
-    quicksort(onegin.right_sorted, 0, onegin.n_lines - 1, my_right_strcmp);
+    (onegin.n_lines)--;
+    quicksort(onegin.left_sorted,  onegin.n_lines, sizeof(char), my_left_strcmp);
+
+    for (size_t i = 0; i < onegin.n_lines; i++)
+        printf("a[%d] = %c(%d)\n", i, onegin.left_sorted[i][5], onegin.left_sorted[i][5]);
+
+    quicksort(onegin.left_sorted,  onegin.n_lines, sizeof(char), my_left_strcmp);
+    quicksort(onegin.right_sorted, onegin.n_lines, sizeof(char), my_right_strcmp);
     printf("Sorting completed\n");
 
     create_out_text(&onegin);
