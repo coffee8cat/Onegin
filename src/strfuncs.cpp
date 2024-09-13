@@ -217,20 +217,27 @@ const char* my_strstr(const char* str, const char* substr)
     return curr;
 }
 
-int my_left_strcmp(const char* s1, const char* s2)
+int my_left_strcmp(const void* s1, const void* s2)
 {
     assert(s1);
     assert(s2);
 
-    const char* s1_pointer = s1;
-    const char* s2_pointer = s2;
+    const char* s1_pointer = *((const char**)s1);
+    const char* s2_pointer = *((const char**)s2);
     int res = 0;
+    assert(s1_pointer);
+    assert(s2_pointer);
+    size_t i = 0;
+    printf("pointer to s1 = %p \npointer to s2 = %p\n", s1_pointer, s2_pointer);
 
+    printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", i++, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
     while (*s1_pointer != '\n' && res == 0)
     {
         s1_pointer = move_pointer_forward_until_alpha(s1_pointer);
         s2_pointer = move_pointer_forward_until_alpha(s2_pointer);
         res = *s1_pointer - *s2_pointer;
+
+        printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", ++i, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
     }
     return res;
 }
@@ -246,20 +253,32 @@ const char* move_pointer_forward_until_alpha(const char* s_pointer)
     return s_pointer;
 }
 
-int my_right_strcmp(const char* s1, const char* s2)
+int my_right_strcmp(const void* s1, const void* s2)
 {
     assert(s1);
     assert(s2);
 
-    const char* s1_pointer = strchr(s1, '\n');
-    const char* s2_pointer = strchr(s2, '\n');
+    const char* s1_pointer = strchr(*((const char**)s1), '\n');
+    const char* s2_pointer = strchr(*((const char**)s2), '\n');
 
     int res = 0;
-    while (s1_pointer >= s1 && s2_pointer >= s2 && res == 0)
+    size_t i = 0;
+    printf("*((**)s1) = %p &s1_end = %p\n"
+           "*((**)s2) = %p &s2_end = %p\n", *((const char**)s1), s1_pointer, *((const char**)s2), s2_pointer);
+    printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", i++, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
+
+    printf("*((**)s1) = %p (*)s1 = %p\n"
+           "*((**)s2) = %p (*)s2 = %p\n", *((const char**)s1), (const char*)s1,
+                                          *((const char**)s2), (const char*)s2);
+    printf("&s1_end >= &s1 = %d\n", s1_pointer >= s1);
+    printf("&s2_end >= &s2 = %d\n", s2_pointer >= s2); //!!! тонко...
+    while (s1_pointer >= *((const char**)s1) && s2_pointer >= *((const char**)s2) && res == 0)
     {
-        s1_pointer = move_pointer_back_until_alpha(s1_pointer, s1);
-        s2_pointer = move_pointer_back_until_alpha(s2_pointer, s2);
+        s1_pointer = move_pointer_back_until_alpha(s1_pointer, (const char*)s1);
+        s2_pointer = move_pointer_back_until_alpha(s2_pointer, (const char*)s2);
         res = *s1_pointer - *s2_pointer;
+
+        printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", ++i, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
     }
     return res;
 }

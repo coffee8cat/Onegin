@@ -3,6 +3,7 @@
 #include "pointers_array_creation.h"
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 const char** sort_lines(const char** array, size_t n, int (*sort_func)(const char*, const char*))
 {
@@ -23,7 +24,7 @@ const char** sort_lines(const char** array, size_t n, int (*sort_func)(const cha
     }
     return array;
 }
-
+/*
 void quicksort(const char** array, size_t length, size_t width, int (*sort_func)(const char*, const char*))
 {
     assert(array);
@@ -36,16 +37,16 @@ void quicksort(const char** array, size_t length, size_t width, int (*sort_func)
         quicksort(array,     q,     width, sort_func);
         quicksort(array + q, length - q, width, sort_func);
     }
-}
+}*/
 
-size_t partition(const char** array, size_t length, size_t width, int (*sort_func)(const char*, const char*))
+size_t partition(void* array, size_t length, size_t width, int (*sort_func)(const void*, const void*))
 {
     assert(array);
     assert(sort_func);
 
-    const char*  v = *(array + length / 2); //возможен выход за пределы массива
-    const char** i = array;
-    const char** j = array + length - 1;
+    char  v = *((char*)array + length * width / 2); //возможен выход за пределы массива
+    void* i = array;
+    void* j = (void*)((char*)array + (length - 1) * width);
 
     /*printf("i[%d] = %c(%d) j[%d] = %c(%d) v[%d] = %c(%d)\n",
            int(i - array), *(*i + 5), *(*i + 5),
@@ -54,12 +55,12 @@ size_t partition(const char** array, size_t length, size_t width, int (*sort_fun
     */
     while (i < j)
     {
-        while (sort_func(*i, v) < 0 && i < array + length - 1)
-            i = i + 1;
-        while (sort_func(*j, v) > 0 && j > array)
+        while (sort_func(i, (void*)(&v)) < 0 && i < (void*)((char*)array + (length - 1) * width))
+            i = (void*)((char*)i + width);
+        while (sort_func(j, (void*)(&v)) > 0 && j > array)
         {
             //printf("compare for j = %d: %d\n", int(j - array), sort_func(*j, *v));
-            j = j - 1;
+            j = (void*)((char*)j - width);
         }
         if (i >= j)
             break;
@@ -67,17 +68,20 @@ size_t partition(const char** array, size_t length, size_t width, int (*sort_fun
                int(i - array), *(*i + 5), *(*i + 5), int(j - array), *(*j + 5), *(*j + 5));
                */
 
-        swap(i, j);
+        swap(i, j, width);
     }
-    for (size_t a = 0; a < length; a++)
-            printf("a[%d] = %c(%d)\n", a, *(*(array + a) + 5), *(*(array + a) + 5));
-
-    return size_t(j - array);
+    /*for (size_t a = 0; a < length; a++)
+            printf("a[%d] = %c(%d)\n", a, *(*((char*)array + a * width) + 5),
+                                          *(*((char*)array + a * width) + 5));
+    */
+    return size_t((char*)j - (char*)array);
 }
 
-void swap(const char** x1, const char** x2)
+void swap(void* x1, void* x2, size_t width)
 {
-    const char* x_intermediate = *x1;
-    *x1 = *x2;
-    *x2 = x_intermediate;
+    void* interim = calloc(width, sizeof(char));
+    assert(interim);
+    memcpy(interim, x1, width);
+    memcpy(x1,      x2, width);
+    memcpy(x2, interim, width);
 }
