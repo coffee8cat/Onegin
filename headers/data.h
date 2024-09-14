@@ -14,4 +14,5 @@ struct onegin_data {
     const char** right_sorted;
     char* out_text;
 };
+//
 #endif
