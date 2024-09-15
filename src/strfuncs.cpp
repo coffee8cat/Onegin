@@ -228,11 +228,11 @@ int my_left_strcmp(const void* s1, const void* s2)
     int res = 0;
     assert(s1_pointer);
     assert(s2_pointer);
-    size_t i = 0;
-    //printf("s1 = %p s2 = %p\n", s1_pointer, s2_pointer);
-
-    //printf("*s1 = %c(%d)\n", *s1_pointer, *s1_pointer);
-    //printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", i++, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
+    /*size_t i = 0;
+    printf("s1 = %p s2 = %p\n", s1_pointer, s2_pointer);
+    printf("*s1 = %c(%d)\n", *s1_pointer, *s1_pointer);
+    printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", i++, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
+    */
     while (*s1_pointer != '\n' && res == 0)
     {
         s1_pointer = move_pointer_forward_until_alpha(s1_pointer);
@@ -249,9 +249,7 @@ const char* move_pointer_forward_until_alpha(const char* s_pointer)
     assert(s_pointer);
     s_pointer++;
     while (*s_pointer != '\n' && isalpha(*s_pointer) == 0)
-    {
         s_pointer++;
-    }
     return s_pointer;
 }
 
@@ -264,8 +262,8 @@ int my_right_strcmp(const void* s1, const void* s2)
     const char* s2_pointer = strchr(*((const char**)s2), '\n');
 
     int res = 0;
-    size_t i = 0;
-    /*printf("*((**)s1) = %p &s1_end = %p\n"
+    /*size_t i = 0;
+    printf("*((**)s1) = %p &s1_end = %p\n"
            "*((**)s2) = %p &s2_end = %p\n", *((const char**)s1), s1_pointer, *((const char**)s2), s2_pointer);
     printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", i++, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
 
