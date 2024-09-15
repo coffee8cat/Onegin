@@ -11,11 +11,10 @@
 
 int main()
 {
-    //setlocale(LC_ALL, "Russian");
-
     onegin_data onegin = {
         "data\\onegin_eng.txt",
-        "data\\my_onegin.txt"
+        "data\\my_onegin.txt",
+        "data\\test_res.txt"
     };
 
     readfile(&onegin);
@@ -28,22 +27,24 @@ int main()
     onegin.left_sorted  = copy_pointers_array(onegin.original, onegin.n_lines);
     onegin.right_sorted = copy_pointers_array(onegin.original, onegin.n_lines);
     printf("Copying completed\n");
-
     (onegin.n_lines)--;
-    quicksort(onegin.left_sorted,  onegin.n_lines, sizeof(char), my_left_strcmp);
 
-    for (size_t i = 0; i < onegin.n_lines; i++)
-        printf("a[%d] = %c(%d)\n", i, onegin.left_sorted[i][5], onegin.left_sorted[i][5]);
+    quicksort(onegin.left_sorted,  onegin.n_lines, sizeof(char*), my_left_strcmp);
+    quicksort(onegin.right_sorted, onegin.n_lines, sizeof(char*), my_right_strcmp);
 
-    quicksort(onegin.left_sorted,  onegin.n_lines, sizeof(char), my_left_strcmp);
-    quicksort(onegin.right_sorted, onegin.n_lines, sizeof(char), my_right_strcmp);
     printf("Sorting completed\n");
 
     create_out_text(&onegin);
-    printf("%s\n", onegin.out_text);
+    write_results(&onegin, onegin.output_file_name);
 
-    FILE* fp = fopen(onegin.output_file_name, "wb");
-    fwrite(onegin.out_text, 3 + onegin.text_size * 3, sizeof(char), fp);
-    fclose(fp);
+    onegin.left_sorted  = copy_pointers_array(onegin.original, onegin.n_lines);
+    onegin.right_sorted = copy_pointers_array(onegin.original, onegin.n_lines);
+
+    qsort(onegin.left_sorted,  onegin.n_lines, sizeof(char*), my_left_strcmp);
+    qsort(onegin.right_sorted, onegin.n_lines, sizeof(char*), my_right_strcmp);
+
+    create_out_text(&onegin);
+    write_results(&onegin, onegin.test_res_file_name);
+
     return EXIT_SUCCESS;
 }

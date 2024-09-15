@@ -6,6 +6,7 @@
 struct onegin_data {
     const char* input_file_name;
     const char* output_file_name;
+    const char* test_res_file_name;
     char* text;
     size_t text_size;
     size_t n_lines;
@@ -14,4 +15,5 @@ struct onegin_data {
     const char** right_sorted;
     char* out_text;
 };
+//
 #endif
