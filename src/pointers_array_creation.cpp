@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
 #include "pointers_array_creation.h"
 
 void make_pointers_array(onegin_data* onegin)

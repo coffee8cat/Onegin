@@ -1,6 +1,10 @@
 #ifndef _POINTERS_ARRAY_CREATION_H__
 #define _POINTERS_ARRAY_CREATION_H__
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 #include "data.h"
 
 void make_pointers_array (onegin_data* onegin);

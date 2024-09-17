@@ -1,9 +1,4 @@
 #include "strfuncs.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <ctype.h>
 
 int my_puts (const char* input_line)
 {

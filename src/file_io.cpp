@@ -1,11 +1,4 @@
 #include "file_io.h"
-#include "data.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <assert.h>
 
 int readfile(onegin_data* onegin)
 {

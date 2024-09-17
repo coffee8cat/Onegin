@@ -1,9 +1,4 @@
-#include "strfuncs.h"
 #include "sorting.h"
-#include "pointers_array_creation.h"
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
 
 void quicksort(void* array, size_t length, size_t width, int (*sort_func)(const void*, const void*))
 {
