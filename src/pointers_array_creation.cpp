@@ -4,28 +4,24 @@ void make_pointers_array(onegin_data* onegin)
 {
     assert(onegin);
     printf("start making ptr array");
-    onegin -> original = (const char**)calloc(onegin -> n_lines + 1, sizeof(int));
+    onegin -> original = (onegin_line*)calloc(onegin -> n_lines + 1, sizeof(onegin_line));
     assert(onegin -> original);
     printf("1\n");
 
-    (onegin -> original)[0] = onegin -> text;
-    (onegin -> original_lines)[0].line = onegin -> text;
+    (onegin -> original)[0].line = onegin -> text;
     size_t line_num = 1;
-    size_t* str_lens = (size_t*)calloc(onegin -> n_lines, sizeof(size_t));
     size_t curr_len = 0;
-    size_t str_num = 0;
     printf("text in : %p\n", onegin -> text);
     printf("text end: %p\n", onegin -> text + onegin -> text_size - 1);
     for (const char* curr_ptr = onegin -> text; curr_ptr < onegin -> text + onegin -> text_size; curr_ptr++)
     {
         if(*curr_ptr == '\n')
         {
-            (onegin -> original)[line_num]                = curr_ptr + 1;
-            (onegin -> original_lines)[line_num].line = curr_ptr + 1;
-            (onegin -> original_lines)[line_num - 1].len  = curr_len;
+            (onegin -> original)[line_num].line = curr_ptr + 1;
+            (onegin -> original)[line_num - 1].len  = curr_len;
 
             printf("line %3d pointer %p ", line_num - 1, curr_ptr);
-            printf("len of str = %d\n", (onegin -> original_lines)[line_num - 1].len);
+            printf("len of str = %d\n", (onegin -> original)[line_num - 1].len);
             curr_len = 0;
             line_num++;
         }
@@ -34,7 +30,7 @@ void make_pointers_array(onegin_data* onegin)
     }
     printf("Construction completed\n");
 }
-
+/*
 void create_out_text(onegin_data* onegin)
 {
     assert(onegin);
@@ -69,15 +65,15 @@ void add_fragment(char* text, size_t* count, size_t array_size, const char** arr
     text[*count] = '\n';
     (*count)++;
 }
-
-const char** copy_pointers_array(const char** array, size_t size)
+*/
+onegin_line* copy_array(onegin_line* array, size_t size)
 {
     assert(array);
 
-    const char** copied_array = (const char**)calloc(size, sizeof(char*));
+    onegin_line* copied_array = (onegin_line*)calloc(size, sizeof(onegin_line));
     assert(copied_array);
 
-    memcpy(copied_array, array, size * sizeof(char*));
+    memcpy(copied_array, array, size * sizeof(onegin_line));
 
     return copied_array;
 }

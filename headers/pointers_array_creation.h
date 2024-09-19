@@ -8,8 +8,7 @@
 #include "data.h"
 
 void make_pointers_array (onegin_data* onegin);
-const char** copy_pointers_array (const char** array, size_t size);
-size_t pointers_array_size (const char** array);
+onegin_line* copy_array (onegin_line* array, size_t size);
 
 void create_out_text (onegin_data* onegin);
 void add_fragment (char* text, size_t* count, size_t array_size, const char** array);
