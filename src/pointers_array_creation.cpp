@@ -18,7 +18,7 @@ void make_pointers_array(onegin_data* onegin)
         if(*curr_ptr == '\n')
         {
             (onegin -> original)[line_num].line = curr_ptr + 1;
-            (onegin -> original)[line_num - 1].len  = curr_len;
+            (onegin -> original)[line_num - 1].len  = curr_len + 1;
 
             printf("line %3d pointer %p ", line_num - 1, curr_ptr);
             printf("len of str = %d\n", (onegin -> original)[line_num - 1].len);
@@ -30,7 +30,7 @@ void make_pointers_array(onegin_data* onegin)
     }
     printf("Construction completed\n");
 }
-/*
+
 void create_out_text(onegin_data* onegin)
 {
     assert(onegin);
@@ -44,28 +44,21 @@ void create_out_text(onegin_data* onegin)
     add_fragment(onegin -> out_text, &count, onegin -> n_lines, onegin -> original);
 }
 
-void add_fragment(char* text, size_t* count, size_t array_size, const char** array)
+void add_fragment(char* text, size_t* count, size_t array_size, onegin_line* onegin_string)
 {
     assert(text);
     assert(count);
-    assert(array);
+    assert(onegin_string);
 
     for(size_t i = 0; i < array_size; i++)
     {
-        const char* curr = array[i];
-        while(*curr != '\n')
-        {
-            text[*count] = *curr;
-            curr++;
-            (*count)++;
-        }
-        text[*count] = *curr;
-        (*count)++;
+        memcpy(text + *count, onegin_string[i].line, onegin_string[i].len);
+        *count = *count + onegin_string[i].len;
     }
     text[*count] = '\n';
     (*count)++;
 }
-*/
+
 onegin_line* copy_array(onegin_line* array, size_t size)
 {
     assert(array);
