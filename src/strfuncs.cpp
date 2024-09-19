@@ -39,16 +39,17 @@ size_t count_chr(const char* string, char ch)
     return count;
 }
 
-size_t my_strlen(const char* string)
+const char* special_strlen(const char* string, size_t* length)
 {
     assert(string);
 
-    size_t i = 0;
-    while (string[i] != '\0')
+    *length = 0;
+    while (string[*length] != '\n')
     {
-        i++;
+        (*length)++;
     }
-    return i;
+
+    return string + *length;
 }
 
 char* my_strcpy(char* s1, const char* s2)
@@ -254,7 +255,7 @@ int my_right_strcmp(const void* s1, const void* s2)
     assert(s2);
 
     const char* s1_pointer = strchr(*((const char**)s1), '\n');
-    const char* s2_pointer = strchr(*((const char**)s2), '\n');
+    const char* s2_pointer = strchr(*((const char**)s2), '\n'); // cringe
 
     int res = 0;
     //size_t i = 0;

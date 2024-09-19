@@ -16,7 +16,7 @@ int my_puts (const char* input_line);
 const char *my_strchr(const char* string, int c);
 size_t count_chr(const char* string, char ch);
 
-size_t my_strlen (const char* string);
+const char* special_strlen(const char* string, size_t* length);
 
 char *my_strcpy  (char * s1, const char * s2);
 char *my_strncpy (char * s1, const char * s2, size_t n);

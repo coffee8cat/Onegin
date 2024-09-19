@@ -3,20 +3,31 @@
 void make_pointers_array(onegin_data* onegin)
 {
     assert(onegin);
+    printf("start making ptr array");
     onegin -> original = (const char**)calloc(onegin -> n_lines + 1, sizeof(int));
     assert(onegin -> original);
+    printf("1\n");
 
     (onegin -> original)[0] = onegin -> text;
-    size_t line_counter = 1;
-    //printf("text in %p\n", text);
-    //printf("%p\n", text + text_size - 1);
-    for (const char* curr = onegin -> text; curr < onegin -> text + onegin -> text_size - 1; curr++)
+    size_t line_num = 1;
+    size_t* str_lens = (size_t*)calloc(onegin -> n_lines, sizeof(size_t));
+    size_t curr_len = 0;
+    size_t str_num = 0;
+    printf("text in : %p\n", onegin -> text);
+    printf("text end: %p\n", onegin -> text + onegin -> text_size - 1);
+    for (const char* curr_ptr = onegin -> text; curr_ptr < onegin -> text + onegin -> text_size; curr_ptr++)
     {
-        if(*curr == '\n')
+        if(*curr_ptr == '\n')
         {
-            (onegin -> original)[line_counter++] = curr + 1;
-            //printf("line %3d pointer %p\n", line_counter - 1, curr);
+            (onegin -> original)[line_num] = curr_ptr + 1;
+            str_lens[line_num - 1] = curr_len;
+            printf("line %3d pointer %p ", line_num - 1, curr_ptr);
+            printf("len of str = %d\n", str_lens[line_num - 1]);
+            curr_len = 0;
+            line_num++;
         }
+        else
+            curr_len++;
     }
     printf("Construction completed\n");
 }

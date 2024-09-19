@@ -1,13 +1,14 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <locale.h>
+#include <ctype.h>
+
 #include "strfuncs.h"
 #include "file_io.h"
 #include "pointers_array_creation.h"
 #include "sorting.h"
 #include "data.h"
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <locale.h>
-#include <ctype.h>
+#include "text_prep.h"
 
 int main()
 {
@@ -17,15 +18,12 @@ int main()
         "data\\test_res.txt"
     };
 
-    readfile(&onegin);
-
-    onegin.n_lines = count_chr(onegin.text, '\n');
-    printf("n lines = %d\n", onegin.n_lines);
-
+    prepare_for_sorting(&onegin);
+    printf("Text prepared\n");
     make_pointers_array(&onegin);
 
     onegin.left_sorted  = copy_pointers_array(onegin.original, onegin.n_lines);
-    onegin.right_sorted = copy_pointers_array(onegin.original, onegin.n_lines);
+    onegin.right_sorted = copy_pointers_array(onegin.original, onegin.n_lines); // stdrdup
     printf("Copying completed\n");
     (onegin.n_lines)--;
 
