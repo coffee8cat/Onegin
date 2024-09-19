@@ -8,7 +8,7 @@ void quicksort(void* array, size_t length, size_t width, int (*sort_func)(const 
     if (length > 1)
     {
         int q = partition(array, length, width, sort_func);
-        //printf("array = %14p length = %d\narray + q = %10p q = %d\n", array, length, array + q, q);
+        printf("array = %14p length = %d\narray + q = %10p q = %d\n", array, length, array + q * width, q);
         quicksort(array, q, width, sort_func);
         quicksort((void*)((char*)array + q * width), length - q, width, sort_func);
     }
@@ -19,41 +19,43 @@ size_t partition(void* array, size_t length, size_t width, int (*sort_func)(cons
     assert(array);
     assert(sort_func);
 
-    //printf("length = %d width = %d mid = %d end = \n", length, width, length * width / 2, (length));
-    void* i = array;
-    void* v = (void*)*(((char**)array + ((length / 2) * width) / sizeof(char*)));
-    void* j = (void*)((char*)array + (length - 1) * width);
+    char* i = (char*)array;
+    char* v = (char*)calloc(1, width);
+    memcpy(v, (char*)array + ((length / 2) * width), width);
+    char* j = ((char*)array + (length - 1) * width);
 
-    /*printf("array = %p\n"
+    printf("array = %p\n"
            "i  = %p\n"
            "v  = %p\n"
-           "&v = %p\n"
-           "v  = array + %d\n"
-           "j  = %p\n", ((char**)array), i, v, &v, int((char*)&v - (char*)array), j);
-    */
-    while ((char*)i < (char*)j)
-    {
-        while (sort_func(i, &v) < 0 && (char*)i < (char*)array + (length - 1) * width)
-            i = (void*)((char*)i + width);
-        while (sort_func(j, &v) > 0 && (char*)j > (char*)array)
-        {
-            //printf("compare for j = %d: %d\n", int((char*)j - (char*)array) / width, sort_func(j, &v));
+           "j  = %p\n", ((char**)array), i, v, j);
+    printf("v = %c[%d]\n", tolower(*(*((char**)v + 1) + 5)), tolower(*(*((char**)v + 1) + 5)));
 
-            //printf("swap i[%d] = %c(%d), j[%d] = %c(%d)\n",
-            //    size_t((char*)j - (char*)array) / width, *(*((char**)j) + 5), *(*((char**)j) + 5),
-            //    size_t((char*)v - (char*)array) / width, *((char*)v + 5), *((char*)v + 5));
-            j = (void*)((char*)j - width);
+    while (i < j)
+    {
+        while (sort_func(i, v) < 0 && i < (char*)array + (length - 1) * width)
+        {
+            printf("compare for i = %d: %d\n", int(i - (char*)array) / width, sort_func(i, v));
+            i = i + width;
+        }
+        while (sort_func(j, v) > 0 && j > (char*)array)
+        {
+            printf("compare for j = %d: %d\n", int(j - (char*)array) / width, sort_func(j, v));
+            j = j - width;
         }
 
         //printf("compare for j = %d: %d\n", int((char*)j - (char*)array) / width, sort_func(j, &v));
         if (i >= j)
             break;
-        /*printf("swap i[%d] = %c(%d), j[%d] = %c(%d)\n",
-               size_t((char*)i - (char*)array) / width, *(*((char**)i) + 5), *(*((char**)i) + 5),
-               size_t((char*)j - (char*)array) / width, *(*((char**)j) + 5), *(*((char**)j) + 5));
-        printf("v = %d\n", v);
-        */
+        printf("swap    i[%2d](%p) = %c(%d)\n"
+               "        j[%2d](%p) = %c(%d)\n",
+            size_t(i - (char*)array) / width, i, tolower(*(*((char**)i + 1) + 5)), tolower(*(*((char**)i + 1) + 5)),
+            size_t(j - (char*)array) / width, j, tolower(*(*((char**)j + 1) + 5)), tolower(*(*((char**)j + 1) + 5)));
+        printf("        v = %c[%d]\n", *(*((char**)v + 1) + 5), *(*((char**)v + 1) + 5));
+
         swap(i, j, width);
+        printf("swapped i = %c(%d)\n"
+               "        j = %c(%d)\n", *(*((char**)i + 1) + 5), *(*((char**)i + 1) + 5),
+                                       *(*((char**)j + 1) + 5), *(*((char**)j + 1) + 5));
     }
     /*for (size_t a = 0; a < length; a++)
             printf("a[%d] = %c(%d)\n", a, *(*((char**)((char*)array + a * width)) + 5),
@@ -61,6 +63,7 @@ size_t partition(void* array, size_t length, size_t width, int (*sort_func)(cons
 
     printf("res = %d\n", size_t((char*)j - (char*)array) / width);
     */
+    free(v);
     return size_t((char*)j - (char*)array) / width;
 }
 
