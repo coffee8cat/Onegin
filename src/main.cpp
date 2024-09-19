@@ -44,5 +44,7 @@ int main()
     create_out_text(&onegin);
     write_results(&onegin, onegin.test_res_file_name);
 
+    for (size_t i = 0; i < sizeof(onegin.original_lines)/ sizeof(onegin.original_lines[0]); i++)
+        printf("line %d: len = [%d]\n%s\n", i, onegin.original_lines[i].len, onegin.original_lines[i].line);
     return EXIT_SUCCESS;
 }

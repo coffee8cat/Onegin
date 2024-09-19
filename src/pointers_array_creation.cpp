@@ -9,6 +9,7 @@ void make_pointers_array(onegin_data* onegin)
     printf("1\n");
 
     (onegin -> original)[0] = onegin -> text;
+    (onegin -> original_lines)[0].line = onegin -> text;
     size_t line_num = 1;
     size_t* str_lens = (size_t*)calloc(onegin -> n_lines, sizeof(size_t));
     size_t curr_len = 0;
@@ -19,10 +20,12 @@ void make_pointers_array(onegin_data* onegin)
     {
         if(*curr_ptr == '\n')
         {
-            (onegin -> original)[line_num] = curr_ptr + 1;
-            str_lens[line_num - 1] = curr_len;
+            (onegin -> original)[line_num]                = curr_ptr + 1;
+            (onegin -> original_lines)[line_num].line = curr_ptr + 1;
+            (onegin -> original_lines)[line_num - 1].len  = curr_len;
+
             printf("line %3d pointer %p ", line_num - 1, curr_ptr);
-            printf("len of str = %d\n", str_lens[line_num - 1]);
+            printf("len of str = %d\n", (onegin -> original_lines)[line_num - 1].len);
             curr_len = 0;
             line_num++;
         }
