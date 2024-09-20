@@ -10,6 +10,7 @@ CFLAGS = -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equ
 		 -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing \
 		 -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -Werror=vla -D_DEBUG -D_EJUDGE_CLIENT_SIDE
 
+DEBUG = DEBUG
 SOURCES_DIR = src
 SOURCES = $(wildcard $(SOURCES_DIR)/*.cpp)
 
@@ -20,7 +21,7 @@ OBJECTS = $(wildcard $(OBJ_DIR)/*.o)
 EXECUTABLE = strfunc.exe
 
 all: $(SOURCES) $(BUILD_DIR)
-	$(CC) $(SOURCES) -o $(BUILD_DIR)/$(EXECUTABLE) -I$(HEADERS_DIR) $(CFLAGS)
+	$(CC) $(SOURCES) -o $(BUILD_DIR)/$(EXECUTABLE) -I$(HEADERS_DIR) -d &(DEBUG) $(CFLAGS)
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -I$(HEADERS_DIR) $< -c -o $(OBJ_DIR)/$@
@@ -42,7 +43,7 @@ clean:
 	rm $(OBJ_DIR)
 
 create_obj:
-	$(CC) $(SOURCES) -c -I$(HEADERS_DIR) $(CFLAGS)
+	$(CC) $(SOURCES) -c -I$(HEADERS_DIR) -D$(DEBUG) $(CFLAGS)
 	mv *.o $(OBJ_DIR)
 
 comp_run:

@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <assert.h>
 #include <stdio.h>
+
 #include "data.h"
 
 int readfile (onegin_data* onegin);

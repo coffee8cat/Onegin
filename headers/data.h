@@ -3,6 +3,18 @@
 
 #include <stdio.h>
 
+#ifdef DEBUG
+
+#define DEBUG_PRINTF(...) printf(__VA_ARGS__);
+
+#else
+
+#define DEBUG_PRINTF(...) ;
+
+#endif
+
+
+const size_t n_parts = 3;
 
 struct onegin_line {
     size_t len;
