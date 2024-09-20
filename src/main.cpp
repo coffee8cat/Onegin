@@ -27,6 +27,18 @@ int main()
     printf("Copying completed\n");
     (onegin.n_lines)--;
     /*
+    printf("SWAP TEST\n");
+    printf("before:\n"
+           "s1 = %s\n"
+           "s2 = %s\n", onegin.left_sorted[0].line, onegin.left_sorted[1].line);
+    swap_by_8(&onegin.left_sorted[0], &onegin.left_sorted[1], sizeof(onegin_line));
+    printf("after:\n"
+           "s1 = %s\n"
+           "s2 = %s\n", onegin.left_sorted[0].line, onegin.left_sorted[1].line);
+    for (size_t i = 0; i < onegin.n_lines; i++)
+        printf("line %2d: %c[%d]\n", i, onegin.left_sorted[i].line[5], tolower(onegin.left_sorted[i].line[5]));
+    */
+    /* //my strcmp tests
     printf("orig[0]: %p\n"
            "orig[1]: %p\n", &onegin.original[0], &onegin.original[1]);
     printf("left comp res = %d\n",
@@ -34,6 +46,7 @@ int main()
     printf("right comp res = %d\n",
            my_right_strcmp(&onegin.original[0], &onegin.original[1]));
     */
+
     quicksort(onegin.left_sorted,  onegin.n_lines, sizeof(onegin_line), my_left_strcmp);
     quicksort(onegin.right_sorted, onegin.n_lines, sizeof(onegin_line), my_right_strcmp);
     /*
