@@ -2,6 +2,7 @@
 #define _PREPARE_TEXT_FOR_SORTING_H__
 
 #include <stdio.h>
+
 #include "data.h"
 #include "file_io.h"
 #include "strfuncs.h"

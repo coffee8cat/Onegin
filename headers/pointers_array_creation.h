@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+
 #include "data.h"
 
 void make_pointers_array (onegin_data* onegin);
