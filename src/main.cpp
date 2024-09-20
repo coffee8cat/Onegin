@@ -47,8 +47,8 @@ int main()
            my_right_strcmp(&onegin.original[0], &onegin.original[1]));
     */
 
-    quicksort(onegin.left_sorted,  onegin.n_lines, sizeof(onegin_line), my_left_strcmp);
-    quicksort(onegin.right_sorted, onegin.n_lines, sizeof(onegin_line), my_right_strcmp);
+    quick_sort(onegin.left_sorted,  onegin.n_lines, sizeof(onegin_line), my_left_strcmp);
+    quick_sort(onegin.right_sorted, onegin.n_lines, sizeof(onegin_line), my_right_strcmp);
     /*
     printf("LEFT SORTED\n");
     for (size_t i = 0; i < onegin.n_lines; i++)
@@ -75,5 +75,15 @@ int main()
     for (size_t i = 0; i < onegin.n_lines; i++)
         printf("line %d: len = [%d]\n%s\n", i, onegin.left_sorted[i].len, onegin.left_sorted[i].line);
     */
+    char s1[] = {'a', 'b', 'c', 'd', 'e', '\0'};
+    char s2[] = {'e', 'g', 'h', 'f', 'l', '\0'};
+    printf("---SWAP TEST---\n");
+    printf("before:\n"
+           "s1: %s\n"
+           "s2: %s\n", s1, s2);
+    swap_by_8((void*)s1, (void*)s2, strlen(s1));
+    printf("after:\n"
+           "s1: %s\n"
+           "s2: %s\n", s1, s2);
     return EXIT_SUCCESS;
 }

@@ -18,17 +18,24 @@ void make_pointers_array(onegin_data* onegin)
         {
             if(*curr_ptr == '\n')
             {
-                (onegin -> original)[line_num].line = curr_ptr + 1;
-                (onegin -> original)[line_num - 1].len  = curr_len + 1;
+                if (curr_len != 1)
+                {
+                    (onegin -> original)[line_num].line = curr_ptr + 1;
+                    (onegin -> original)[line_num - 1].len  = curr_len + 1;
 
-                printf("line %3d pointer %p ", line_num - 1, curr_ptr);
-                printf("len of str = %d\n", (onegin -> original)[line_num - 1].len);
-                curr_len = 0;
-                line_num++;
+                    printf("line %3d pointer %p ", line_num - 1, curr_ptr);
+                    printf("len of str = %d\n", (onegin -> original)[line_num - 1].len);
+                    curr_len = 0;
+                    line_num++;
+                }
+                else
+                    curr_len = 0;
             }
             else
                 curr_len++;
         }
+        printf("number of lines: %d\n", line_num - 1);
+        //onegin -> n_lines = line_num - 1;
         printf("Construction completed\n");
     }
     else

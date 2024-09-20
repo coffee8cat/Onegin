@@ -1,6 +1,6 @@
 #include "sorting.h"
 
-void quicksort(void* array, size_t length, size_t elem_size, int (*sort_func)(const void*, const void*))
+void quick_sort(void* array, size_t length, size_t elem_size, int (*sort_func)(const void*, const void*))
 {
     assert(array);
     assert(sort_func);
@@ -9,8 +9,8 @@ void quicksort(void* array, size_t length, size_t elem_size, int (*sort_func)(co
     {
         int q = partition(array, length, elem_size, sort_func);
         //printf("array = %14p length = %d\narray + q = %10p q = %d\n", array, length, array + q * elem_size, q);
-        quicksort(array, q, elem_size, sort_func);
-        quicksort((void*)((char*)array + q * elem_size), length - q, elem_size, sort_func);
+        quick_sort(array, q, elem_size, sort_func);
+        quick_sort((void*)((char*)array + q * elem_size), length - q, elem_size, sort_func);
     }
 }
 
@@ -75,45 +75,22 @@ void swap(void* x1, void* x2, size_t size)
 
 void swap_by_8(void* x1, void* x2, size_t size)
 {
-    while (size >= sizeof(double))
+    printf("size = %d\n", size);
+    int curr_size = sizeof(uint64_t);
+    while ( curr_size > 0)
     {
-        double interim = 0;
-        memcpy(&interim, x1, sizeof(double));
-        memcpy(x1,       x2, sizeof(double));
-        memcpy(x2, &interim, sizeof(double));
-        size = size - sizeof(double);
-        x1 = x1 + sizeof(double);
-        x2 = x2 + sizeof(double);
+        while ( curr_size <= size )
+        {
+            printf("curr_size = %d\n", curr_size);
+            uint64_t interim = 0;
+            memcpy(&interim, x1, curr_size);
+            memcpy(x1,       x2, curr_size);
+            memcpy(x2, &interim, curr_size);
+            size = size - curr_size;
+            x1 = x1 + curr_size;
+            x2 = x2 + curr_size;
+            printf("iteration done\n");
+        }
+        curr_size = curr_size / 2;
     }
-    if (size >= sizeof(int))
-    {
-        int interim = 0;
-        memcpy(&interim, x1, sizeof(int));
-        memcpy(x1,       x2, sizeof(int));
-        memcpy(x2, &interim, sizeof(int));
-        size = size - sizeof(int);
-        x1 = x1 + sizeof(double);
-        x2 = x2 + sizeof(double);
-    }
-    if (size >= sizeof(short int))
-    {
-        short int interim = 0;
-        memcpy(&interim, x1, sizeof(short int));
-        memcpy(x1,       x2, sizeof(short int));
-        memcpy(x2, &interim, sizeof(short int));
-        size = size - sizeof(short int);
-        x1 = x1 + sizeof(double);
-        x2 = x2 + sizeof(double);
-    }
-    if (size >= sizeof(char))
-    {
-        char interim = 0;
-        memcpy(&interim, x1, sizeof(short int));
-        memcpy(x1,      x2, sizeof(short int));
-        memcpy(x2, &interim, sizeof(short int));
-        size = size - sizeof(short int);
-        x1 = x1 + sizeof(double);
-        x2 = x2 + sizeof(double);
-    }
-
 }
