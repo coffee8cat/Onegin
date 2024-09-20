@@ -3,6 +3,12 @@
 
 #include <stdio.h>
 
+
+struct onegin_line {
+    size_t len;
+    const char* line;
+};
+
 struct onegin_data {
     const char* input_file_name;
     const char* output_file_name;
@@ -10,10 +16,9 @@ struct onegin_data {
     char* text;
     size_t text_size;
     size_t n_lines;
-    const char** original;
-    const char** left_sorted;
-    const char** right_sorted;
+    onegin_line* original;
+    onegin_line* left_sorted;
+    onegin_line* right_sorted;
     char* out_text;
 };
-//
 #endif

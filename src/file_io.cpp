@@ -1,11 +1,4 @@
 #include "file_io.h"
-#include "data.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <assert.h>
 
 int readfile(onegin_data* onegin)
 {
@@ -14,9 +7,7 @@ int readfile(onegin_data* onegin)
     FILE *fp = fopen(onegin->input_file_name, "rb");
     if (fp != NULL)
     {
-        struct stat st = {};
-        fstat(fileno(fp), &st);
-        onegin -> text_size = (size_t)st.st_size;
+        onegin -> text_size = get_file_size(fp);
         printf("%d\n", onegin -> text_size);
 
         onegin -> text = (char*)calloc(onegin -> text_size + 1, sizeof(char));
@@ -35,6 +26,13 @@ int readfile(onegin_data* onegin)
         fprintf(stderr, "ERROR: Cannot open file %s\n", onegin -> input_file_name);
 
     return EXIT_FAILURE;
+}
+
+size_t get_file_size(FILE* fp)
+{
+    struct stat st = {};
+    fstat(fileno(fp), &st);
+    return (size_t)st.st_size;
 }
 
 int write_results(onegin_data* onegin, const char* file_name)

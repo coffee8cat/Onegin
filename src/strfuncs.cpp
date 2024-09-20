@@ -1,9 +1,4 @@
 #include "strfuncs.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-#include <ctype.h>
 
 int my_puts (const char* input_line)
 {
@@ -44,16 +39,17 @@ size_t count_chr(const char* string, char ch)
     return count;
 }
 
-size_t my_strlen(const char* string)
+const char* special_strlen(const char* string, size_t* length)
 {
     assert(string);
 
-    size_t i = 0;
-    while (string[i] != '\0')
+    *length = 0;
+    while (string[*length] != '\n')
     {
-        i++;
+        (*length)++;
     }
-    return i;
+
+    return string + *length;
 }
 
 char* my_strcpy(char* s1, const char* s2)
@@ -222,23 +218,25 @@ int my_left_strcmp(const void* s1, const void* s2)
     assert(s1);
     assert(s2);
 
-    const char* s1_pointer = *((const char**)s1);
-    const char* s2_pointer = *((const char**)s2);
+    //printf("s1: %d\n"
+    //       "s2: %d\n", *((size_t*)s1), *((size_t*)s2));
+    const char* s1_pointer = *((const char**)s1 + 1);
+    const char* s2_pointer = *((const char**)s2 + 1);
 
     int res = 0;
     assert(s1_pointer);
     assert(s2_pointer);
-    /*size_t i = 0;
+/*
+    size_t i = 0;
     printf("s1 = %p s2 = %p\n", s1_pointer, s2_pointer);
     printf("*s1 = %c(%d)\n", *s1_pointer, *s1_pointer);
     printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", i++, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
-    */
+*/
     while (*s1_pointer != '\n' && res == 0)
     {
         s1_pointer = move_pointer_forward_until_alpha(s1_pointer);
         s2_pointer = move_pointer_forward_until_alpha(s2_pointer);
-        res = *s1_pointer - *s2_pointer;
-
+        res = tolower(*s1_pointer) - tolower(*s2_pointer);
         //printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", ++i, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
     }
     return res;
@@ -258,28 +256,29 @@ int my_right_strcmp(const void* s1, const void* s2)
     assert(s1);
     assert(s2);
 
-    const char* s1_pointer = strchr(*((const char**)s1), '\n');
-    const char* s2_pointer = strchr(*((const char**)s2), '\n');
+    //printf("s1: %d\n"
+    //       "s2: %d\n", *((size_t*)s1), *((size_t*)s2));
+    const char* s1_start   = *((const char**)s1 + 1);
+    const char* s2_start   = *((const char**)s2 + 1);
+    const char* s1_pointer = s1_start + *((size_t*)s1);
+    const char* s2_pointer = s2_start + *((size_t*)s2);
 
     int res = 0;
-    /*size_t i = 0;
+    size_t i = 0;
+/*
     printf("*((**)s1) = %p &s1_end = %p\n"
-           "*((**)s2) = %p &s2_end = %p\n", *((const char**)s1), s1_pointer, *((const char**)s2), s2_pointer);
+           "*((**)s2) = %p &s2_end = %p\n", s1_start, s1_pointer, s2_start, s2_pointer);
     printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", i++, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
+*/
 
-    printf("*((**)s1) = %p (*)s1 = %p\n"
-           "*((**)s2) = %p (*)s2 = %p\n", *((const char**)s1), (const char*)s1,
-                                          *((const char**)s2), (const char*)s2);
-    printf("&s1_end >= &s1 = %d\n", s1_pointer >= s1);
-    printf("&s2_end >= &s2 = %d\n", s2_pointer >= s2);
-    */
-    while (s1_pointer >= *((const char**)s1) && s2_pointer >= *((const char**)s2) && res == 0)
+    while (s1_pointer >= s1_start && s2_pointer >= s2_start && res == 0)
     {
-        s1_pointer = move_pointer_back_until_alpha(s1_pointer, *(const char**)s1);
-        s2_pointer = move_pointer_back_until_alpha(s2_pointer, *(const char**)s2);
-        res = *s1_pointer - *s2_pointer;
+        s1_pointer = move_pointer_back_until_alpha(s1_pointer, s1_start);
+        s2_pointer = move_pointer_back_until_alpha(s2_pointer, s2_start);
+        res = tolower(*s1_pointer) - tolower(*s2_pointer);
 
-        //printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", ++i, *s1_pointer, *s1_pointer, *s2_pointer, *s2_pointer);
+        //printf("iter %d\n *s1 = %c(%d)\n *s2 = %c(%d)\n", ++i, tolower(*s1_pointer), tolower(*s1_pointer),
+        //                                                     tolower(*s2_pointer), tolower(*s2_pointer));
     }
     return res;
 }
