@@ -43,7 +43,7 @@ int write_results(onegin_data* onegin, const char* file_name)
     assert(onegin -> output_file_name);
 
     FILE* fp = fopen(file_name, "wb");
-    printf("out file size: %d\n", n_parts + onegin -> text_size * n_parts);
+    DEBUG_PRINTF("out file size: %d\n", n_parts + onegin -> text_size * n_parts);
     if (fp != NULL)
         fwrite(onegin -> out_text, n_parts + onegin -> text_size * n_parts, sizeof(char), fp);
 

@@ -9,6 +9,7 @@
 #include "sorting.h"
 #include "data.h"
 #include "text_prep.h"
+#include "onegin_testing.h"
 
 int main()
 {
@@ -54,15 +55,7 @@ int main()
     for (size_t i = 0; i < onegin.n_lines; i++)
         DEBUG_PRINTF("line %d: len = [%d]\n%s\n", i, onegin.left_sorted[i].len, onegin.left_sorted[i].line);
     */
-    char s1[] = {'a', 'b', 'c', 'd', 'e', '\0'};
-    char s2[] = {'e', 'g', 'h', 'f', 'l', '\0'};
-    DEBUG_PRINTF("\n---SWAP TEST---\n");
-    DEBUG_PRINTF("before:\n"
-           "s1: %s\n"
-           "s2: %s\n", s1, s2);
-    swap_by_8((void*)s1, (void*)s2, strlen(s1));
-    DEBUG_PRINTF("after:\n"
-           "s1: %s\n"
-           "s2: %s\n", s1, s2);
+    test_swap();
+
     return EXIT_SUCCESS;
 }

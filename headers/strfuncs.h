@@ -38,6 +38,6 @@ const char *my_strstr (const char* str, const char* substr);
 int my_left_strcmp  (const void* s1, const void* s2);
 int my_right_strcmp (const void* s1, const void* s2);
 const char* move_pointer_forward_until_alpha (const char* s_pointer);
-const char* move_pointer_back_until_alpha    (const char* s_pointer, const char* s);
+const char* move_pointer_back_until_alpha    (const char* s_pointer, const char* s_start);
 
 #endif //_MY_STRING_FUNCTIONS_H__
