@@ -66,26 +66,26 @@ size_t partition(void* array, size_t length, size_t elem_size, int (*sort_func)(
     return size_t((char*)right_ptr - (char*)array) / elem_size;
 }
 
-void swap(void* x1, void* x2, size_t size)
+void swap(void* first, void* second, size_t size)
 {
-    assert(x1);
-    assert(x2);
+    assert(first);
+    assert(second);
 
-    char* byte_ptr_1 = (char*)x1;
-    char* byte_ptr_2 = (char*)x2;
-    char interim = 0;
+    char* byte_ptr_1 = (char*)first;
+    char* byte_ptr_2 = (char*)second;
+
     while (size > 0) {
-        interim = *byte_ptr_1;
+        char interim  = *byte_ptr_1;
         *byte_ptr_1++ = *byte_ptr_2;
         *byte_ptr_2++ = interim;
         size--;
     }
 }
 
-void swap_by_8(void* x1, void* x2, size_t size)
+void swap_by_8(void* first, void* second, size_t size)
 {
-    assert(x1);
-    assert(x2);
+    assert(first);
+    assert(second);
 
     DEBUG_PRINTF("size = %d\n", size);
     int curr_size = sizeof(uint64_t);
@@ -94,13 +94,16 @@ void swap_by_8(void* x1, void* x2, size_t size)
         while ( curr_size <= size )
         {
             DEBUG_PRINTF("curr_size = %d\n", curr_size);
+
             uint64_t interim = 0;
-            memcpy(&interim, x1, curr_size);
-            memcpy(x1,       x2, curr_size);
-            memcpy(x2, &interim, curr_size);
-            size = size - curr_size;
-            x1 = x1 + curr_size;
-            x2 = x2 + curr_size;
+            memcpy(&interim,  first, curr_size);
+            memcpy(first,    second, curr_size);
+            memcpy(second, &interim, curr_size);
+
+            size   = size   - curr_size;
+            first  = first  + curr_size;
+            second = second + curr_size;
+
             DEBUG_PRINTF("iteration done\n");
         }
         curr_size = curr_size / 2;

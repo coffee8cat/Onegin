@@ -21,7 +21,7 @@ OBJECTS = $(wildcard $(OBJ_DIR)/*.o)
 EXECUTABLE = strfunc.exe
 
 all: $(SOURCES) $(BUILD_DIR)
-	$(CC) $(SOURCES) -o $(BUILD_DIR)/$(EXECUTABLE) -I$(HEADERS_DIR) -d &(DEBUG) $(CFLAGS)
+	$(CC) $(SOURCES) -o $(BUILD_DIR)/$(EXECUTABLE) -I$(HEADERS_DIR) -D$(DEBUG) $(CFLAGS)
 
 %.o: %.cpp
 	$(CC) $(CFLAGS) -I$(HEADERS_DIR) $< -c -o $(OBJ_DIR)/$@
