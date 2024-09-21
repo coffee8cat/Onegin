@@ -25,38 +25,17 @@ int main()
     onegin.left_sorted  = copy_array(onegin.original, onegin.n_lines);
     onegin.right_sorted = copy_array(onegin.original, onegin.n_lines);
     DEBUG_PRINTF("Copying completed\n");
-    (onegin.n_lines)--;
-
-    DEBUG_PRINTF("SWAP TEST\n");
-    DEBUG_PRINTF("before:\n"
-           "s1 = %s\n"
-           "s2 = %s\n", onegin.left_sorted[0].line, onegin.left_sorted[1].line);
-    swap_by_8(&onegin.left_sorted[0], &onegin.left_sorted[1], sizeof(onegin_line));
-    DEBUG_PRINTF("after:\n"
-           "s1 = %s\n"
-           "s2 = %s\n", onegin.left_sorted[0].line, onegin.left_sorted[1].line);
-    for (size_t i = 0; i < onegin.n_lines; i++)
-        DEBUG_PRINTF("line %2d: %c[%d]\n", i, onegin.left_sorted[i].line[5], tolower(onegin.left_sorted[i].line[5]));
-
-    //my strcmp tests
-    DEBUG_PRINTF("orig[0]: %p\n"
-           "orig[1]: %p\n", &onegin.original[0], &onegin.original[1]);
-    DEBUG_PRINTF("left comp res = %d\n",
-           my_left_strcmp(&onegin.original[0], &onegin.original[1]));
-    DEBUG_PRINTF("right comp res = %d\n",
-           my_right_strcmp(&onegin.original[0], &onegin.original[1]));
-
 
     quick_sort(onegin.left_sorted,  onegin.n_lines, sizeof(onegin_line), my_left_strcmp);
     quick_sort(onegin.right_sorted, onegin.n_lines, sizeof(onegin_line), my_right_strcmp);
-
+/*
     DEBUG_PRINTF("LEFT SORTED\n");
     for (size_t i = 0; i < onegin.n_lines; i++)
         DEBUG_PRINTF("line %2d: %c[%d]\n", i, onegin.left_sorted[i].line[5], tolower(onegin.left_sorted[i].line[5]));
     DEBUG_PRINTF("RIGHT SORTED:\n");
     for (size_t i = 0; i < onegin.n_lines; i++)
         DEBUG_PRINTF("line %2d: %c[%d]\n", i, onegin.right_sorted[i].line[5], tolower(onegin.right_sorted[i].line[5]));
-
+*/
     DEBUG_PRINTF("Sorting completed\n");
 
     create_out_text(&onegin);

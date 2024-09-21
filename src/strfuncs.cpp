@@ -5,7 +5,8 @@ int my_puts (const char* input_line)
     assert(input_line);
 
     size_t i = 0;
-    while (i < strlen(input_line) - 1)
+    size_t string_len = strlen(input_line);
+    while (i < string_len - 1)
     {
         putc(input_line[i], stdout);
         i++;

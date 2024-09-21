@@ -11,7 +11,7 @@ int readfile(onegin_data* onegin)
         return EXIT_FAILURE;
     }
     onegin -> text_size = get_file_size(fp);
-    DEBUG_PRINT("%d\n", onegin -> text_size);
+    DEBUG_PRINTF("%d\n", onegin -> text_size);
 
     onegin -> text = (char*)calloc(onegin -> text_size + 1, sizeof(char)); //TODO +1 for \0
     if (onegin -> text == NULL)
@@ -21,7 +21,7 @@ int readfile(onegin_data* onegin)
     }
     fread(onegin -> text, sizeof(char), onegin -> text_size , fp);
     fclose(fp);
-    (onegin -> text)[onegin -> text_size] = '\n ';
+    (onegin -> text)[onegin -> text_size] = '\0';
 
     return EXIT_SUCCESS;
 }
@@ -43,6 +43,7 @@ int write_results(onegin_data* onegin, const char* file_name)
     assert(onegin -> output_file_name);
 
     FILE* fp = fopen(file_name, "wb");
+    printf("out file size: %d\n", n_parts + onegin -> text_size * n_parts);
     if (fp != NULL)
         fwrite(onegin -> out_text, n_parts + onegin -> text_size * n_parts, sizeof(char), fp);
 

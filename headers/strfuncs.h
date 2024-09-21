@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "data.h"
+
 const size_t hash_coeff = 281;
 
 int my_puts (const char* input_line);
